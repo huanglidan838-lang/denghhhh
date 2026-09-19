@@ -6,6 +6,9 @@
 
 [deng-hailing-portfolio-2026.meitu-1775.chatgpt.site](https://deng-hailing-portfolio-2026.meitu-1775.chatgpt.site/)
 
+无需原托管域名的 GitHub Pages 备用入口：
+[huanglidan838-lang.github.io/denghhhh](https://huanglidan838-lang.github.io/denghhhh/)
+
 ## 本地运行
 
 需要 Node.js 22.13 或更高版本，以及 pnpm。
@@ -31,4 +34,4 @@ pnpm check:bundle
 - vinext / Vite
 - TypeScript
 
-> 当前线上版本由支持 vinext Worker 构建的托管环境提供。GitHub 仓库用于源码管理与版本备份。
+> 主站由支持 vinext Worker 构建的托管环境提供；GitHub Actions 会同时生成并发布纯静态备用版本。
