@@ -1,0 +1,8 @@
+{
+ "name":"denghhhh",
+ "main":"./worker/index.ts",
+ "compatibility_date":"2026-05-15",
+ "compatibility_flags":["nodejs_compat"],
+ "workers_dev":true,
+ "d1_databases":[{"binding":"DB","database_name":"happy-home-db","database_id":"b1dcc41a-a775-499d-8f8e-084820c371f9","migrations_dir":"drizzle"}]
+}
