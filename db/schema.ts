@@ -12,3 +12,5 @@ export const broadcasts=sqliteTable('broadcasts',{id:integer('id').primaryKey({a
 export const foods=sqliteTable('foods',{id:text('id').primaryKey(),userId:text('user_id').notNull(),name:text('name').notNull().unique(),created:integer('created').notNull()});
 export const ratings=sqliteTable('ratings',{foodId:text('food_id').notNull().references(()=>foods.id),userId:text('user_id').notNull(),stars:integer('stars').notNull()},t=>[primaryKey({columns:[t.foodId,t.userId]})]);
 export const meals=sqliteTable('meals',{userId:text('user_id').notNull(),day:text('day').notNull(),slot:text('slot').notNull(),body:text('body').notNull()},t=>[primaryKey({columns:[t.userId,t.day,t.slot]})]);
+
+export const drinkLogs=sqliteTable('drink_logs',{id:text('id').primaryKey(),userId:text('user_id').notNull(),day:text('day').notNull(),kind:text('kind').notNull(),name:text('name').notNull(),created:integer('created').notNull()});

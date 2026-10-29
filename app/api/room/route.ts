@@ -11,7 +11,7 @@ export async function GET(request:Request){
  const activeMessages=await db.select().from(broadcasts).where(gt(broadcasts.expires,Date.now())).orderBy(desc(broadcasts.id));
  const allFoods=await db.select().from(foods),allRatings=await db.select().from(ratings),days=weekDays();
  const plans=await db.select().from(meals).where(inArray(meals.day,days));
- return Response.json({serverNow:Date.now(),messages,activeMessages,nextCursor:messages.length===50?messages[49].id:null,days,plans,foods:allFoods.map(f=>{const r=allRatings.filter(x=>x.foodId===f.id);return {...f,count:r.length,average:r.length?r.reduce((a,x)=>a+x.stars,0)/r.length:0,mine:r.find(x=>x.userId===user.userId)?.stars||0}}).sort((a,b)=>b.average-a.average||b.count-a.count||b.created-a.created)},{headers:{'Cache-Control':'no-store'}});
+ return Response.json({serverNow:Date.now(),messages,activeMessages,nextCursor:messages.length===50?messages[49].id:null,days,plans,foods:allFoods.map(f=>{const r=allRatings.filter(x=>x.foodId===f.id);return {...f,ratings:r,count:r.length,average:r.length?r.reduce((a,x)=>a+x.stars,0)/r.length:0,mine:r.find(x=>x.userId===user.userId)?.stars||0}}).sort((a,b)=>b.average-a.average||b.count-a.count||b.created-a.created)},{headers:{'Cache-Control':'no-store'}});
 }
 export async function POST(request:Request){
  const user=await getChatGPTUser();if(!user)return fail('请先登录',401);
@@ -31,8 +31,8 @@ export async function POST(request:Request){
  if(typeof d.body!=='string'||!d.body.trim()||d.body.trim().length>200)return fail('弹窗为 1～200 字');
  const now=Date.now();await db.insert(broadcasts).values({userId:user.userId,body:d.body.trim(),created:now,expires:now+60000});
  }else if(d.action==='food'){
- const name=typeof d.name==='string'?d.name.trim():'';if(!name||name.length>40)return fail('美食名称为 1～40 字');
- try{await db.insert(foods).values({id:crypto.randomUUID(),userId:user.userId,name,created:Date.now()})}catch(e){if(/unique|constraint/i.test(String(e)+String((e as any)?.cause)))return fail('这道美食已经在榜单里了',409);throw e}
+ const name=typeof d.name==='string'?d.name.trim():'';if(!name||name.length>40)return fail('店名为 1～40 字');
+ try{await db.insert(foods).values({id:crypto.randomUUID(),userId:user.userId,name,created:Date.now()})}catch(e){if(/unique|constraint/i.test(String(e)+String((e as any)?.cause)))return fail('这家店已在榜单里，可直接评分',409);throw e}
  }else if(d.action==='rate'){
  if(!Number.isInteger(d.stars)||d.stars<1||d.stars>5)return fail('请选择 1～5 星');
  if(typeof d.foodId!=='string'||!(await db.select().from(foods).where(eq(foods.id,d.foodId)))[0])return fail('美食不存在',404);
