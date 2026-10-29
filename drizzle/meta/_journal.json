@@ -1,5 +1,41 @@
 {
   "version": "7",
   "dialect": "sqlite",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1793240295987,
+      "tag": "0000_loving_medusa",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1793243049805,
+      "tag": "0001_robust_adam_destine",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793255310490,
+      "tag": "0002_flimsy_skaar",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1793257452662,
+      "tag": "0003_stiff_kylun",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1793266136204,
+      "tag": "0004_even_war_machine",
+      "breakpoints": true
+    }
+  ]
 }

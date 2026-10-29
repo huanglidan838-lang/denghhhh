@@ -1,4 +1,14 @@
-// Intentionally empty by default.
-// Add Drizzle tables here when the site actually needs a database.
-// See examples/d1/db/schema.ts for an opt-in example.
-export {};
+import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
+export const members = sqliteTable('members', {id:text('id').primaryKey(),name:text('name').notNull(),avatar:text('avatar').notNull(),seat:integer('seat').unique(),status:text('status').notNull(),mood:text('mood').notNull().default('开心'),drink:text('drink').notNull(),companionName:text('companion_name').notNull().default(''),snackName:text('snack_name').notNull().default(''),drinkName:text('drink_name').notNull().default(''),companion:text('companion').notNull().default('🧸'),snack:text('snack').notNull().default('🍪'),updated:text('updated').notNull()});
+export const entries = sqliteTable('entries', {id:integer('id').primaryKey({autoIncrement:true}),userId:text('user_id').notNull(),kind:text('kind').notNull(),body:text('body').notNull(),mood:text('mood').notNull(),drink:text('drink').notNull(),created:text('created').notNull()});
+export const photos=sqliteTable('photos',{id:text('id').primaryKey(),userId:text('user_id').notNull(),key:text('key').notNull(),caption:text('caption').notNull(),created:text('created').notNull()});
+export const likes=sqliteTable('likes',{photoId:text('photo_id').notNull().references(()=>photos.id),userId:text('user_id').notNull()},t=>[primaryKey({columns:[t.photoId,t.userId]})]);
+export const comments=sqliteTable('comments',{id:integer('id').primaryKey({autoIncrement:true}),photoId:text('photo_id').notNull().references(()=>photos.id),userId:text('user_id').notNull(),body:text('body').notNull(),created:text('created').notNull()});
+export const todos=sqliteTable('todos',{userId:text('user_id').primaryKey(),body:text('body').notNull(),version:integer('version').notNull(),updated:text('updated').notNull()});
+export const purchases=sqliteTable('purchases',{id:text('id').primaryKey(),userId:text('user_id').notNull(),title:text('title').notNull(),priceCents:integer('price_cents').notNull(),reason:text('reason').notNull(),electorate:text('electorate').notNull(),threshold:integer('threshold').notNull(),created:text('created').notNull()});
+export const votes=sqliteTable('votes',{purchaseId:text('purchase_id').notNull().references(()=>purchases.id),userId:text('user_id').notNull(),decision:text('decision').notNull(),reason:text('reason').notNull(),created:text('created').notNull()},t=>[primaryKey({columns:[t.purchaseId,t.userId]})]);
+
+export const broadcasts=sqliteTable('broadcasts',{id:integer('id').primaryKey({autoIncrement:true}),userId:text('user_id').notNull(),body:text('body').notNull(),created:integer('created').notNull(),expires:integer('expires').notNull()});
+export const foods=sqliteTable('foods',{id:text('id').primaryKey(),userId:text('user_id').notNull(),name:text('name').notNull().unique(),created:integer('created').notNull()});
+export const ratings=sqliteTable('ratings',{foodId:text('food_id').notNull().references(()=>foods.id),userId:text('user_id').notNull(),stars:integer('stars').notNull()},t=>[primaryKey({columns:[t.foodId,t.userId]})]);
+export const meals=sqliteTable('meals',{userId:text('user_id').notNull(),day:text('day').notNull(),slot:text('slot').notNull(),body:text('body').notNull()},t=>[primaryKey({columns:[t.userId,t.day,t.slot]})]);
