@@ -1,3 +1,4 @@
+import './restore-title-font.mjs';
 import './restore-font.mjs';
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
